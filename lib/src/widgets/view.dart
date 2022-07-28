@@ -1,9 +1,10 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
+import 'package:better_player/better_player.dart';
+import 'package:editorjs_flutter/src/model/EditorJSCSSTag.dart';
 import 'package:editorjs_flutter/src/model/EditorJSData.dart';
 import 'package:editorjs_flutter/src/model/EditorJSViewStyles.dart';
-import 'package:editorjs_flutter/src/model/EditorJSCSSTag.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/style.dart';
 
@@ -11,8 +12,7 @@ class EditorJSView extends StatefulWidget {
   final String? editorJSData;
   final String? styles;
 
-  const EditorJSView({Key? key, this.editorJSData, this.styles})
-      : super(key: key);
+  const EditorJSView({Key? key, this.editorJSData, this.styles}) : super(key: key);
 
   @override
   EditorJSViewState createState() => EditorJSViewState();
@@ -63,18 +63,12 @@ class EditorJSViewState extends State<EditorJSView> {
 
             switch (element.type) {
               case "header":
-                items.add(Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        element.data!.text!,
-                        style: TextStyle(
-                            fontSize: levelFontSize,
-                            fontWeight: (element.data!.level! <= 3)
-                                ? FontWeight.bold
-                                : FontWeight.normal),
-                      )
-                    ]));
+                items.add(Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Text(
+                    element.data!.text!,
+                    style: TextStyle(fontSize: levelFontSize, fontWeight: (element.data!.level! <= 3) ? FontWeight.bold : FontWeight.normal),
+                  )
+                ]));
                 break;
               case "paragraph":
                 items.add(Html(
@@ -106,9 +100,7 @@ class EditorJSViewState extends State<EditorJSView> {
                         Row(
                           children: <Widget>[
                             Container(
-                              child: Html(
-                                  data: bullet + element,
-                                  style: customStyleMap),
+                              child: Html(data: bullet + element, style: customStyleMap),
                             )
                           ],
                         ),
@@ -118,16 +110,16 @@ class EditorJSViewState extends State<EditorJSView> {
                 );
                 break;
               case "delimiter":
-                items.add(Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      // Text('***', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold), textAlign: TextAlign.center,)
-                      Expanded(child: Divider(color: Colors.grey))
-                    ]));
+                items.add(Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                  // Text('***', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold), textAlign: TextAlign.center,)
+                  Expanded(child: Divider(color: Colors.grey))
+                ]));
                 break;
               case "image":
                 items.add(Image.network(element.data!.file!.url!));
                 break;
+              case "timeline":
+                items.add(BetterPlayer.network("https://stream.mux.com/YDgwX8016VoySCCp8HezGfifUlhBhZyVUW685OaQ8izA.m3u8"));
             }
             items.add(const SizedBox(height: 10));
           },
@@ -144,14 +136,9 @@ class EditorJSViewState extends State<EditorJSView> {
         map.putIfAbsent(
             element.tag.toString(),
             () => Style(
-                backgroundColor: (element.backgroundColor != null)
-                    ? getColor(element.backgroundColor!)
-                    : null,
-                color:
-                    (element.color != null) ? getColor(element.color!) : null,
-                padding: (element.padding != null)
-                    ? EdgeInsets.all(element.padding!)
-                    : null));
+                backgroundColor: (element.backgroundColor != null) ? getColor(element.backgroundColor!) : null,
+                color: (element.color != null) ? getColor(element.color!) : null,
+                padding: (element.padding != null) ? EdgeInsets.all(element.padding!) : null));
       },
     );
 
