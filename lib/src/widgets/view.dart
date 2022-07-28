@@ -119,7 +119,15 @@ class EditorJSViewState extends State<EditorJSView> {
                 items.add(Image.network(element.data!.file!.url!));
                 break;
               case "timeline":
-                items.add(BetterPlayer.network("https://stream.mux.com/YDgwX8016VoySCCp8HezGfifUlhBhZyVUW685OaQ8izA.m3u8"));
+                final BetterPlayerDataSource dataSource = BetterPlayerDataSource(
+                    BetterPlayerDataSourceType.network, "https://stream.mux.com/YDgwX8016VoySCCp8HezGfifUlhBhZyVUW685OaQ8izA.m3u8");
+                final BetterPlayerController controller = BetterPlayerController(
+                  BetterPlayerConfiguration(),
+                  betterPlayerDataSource: dataSource,
+                );
+                items.add(BetterPlayer(
+                  controller: controller,
+                ));
             }
             items.add(const SizedBox(height: 10));
           },
