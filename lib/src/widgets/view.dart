@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:better_player/better_player.dart';
+import 'package:editorjs_flutter/src/model/EditorJSBlock.dart';
 import 'package:editorjs_flutter/src/model/EditorJSCSSTag.dart';
 import 'package:editorjs_flutter/src/model/EditorJSData.dart';
 import 'package:editorjs_flutter/src/model/EditorJSViewStyles.dart';
@@ -8,11 +8,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/style.dart';
 
+typedef EditorJSComponentBuilder = Widget Function(
+  BuildContext context,
+  EditorJSBlock block,
+);
+
 class EditorJSView extends StatefulWidget {
   final String? editorJSData;
   final String? styles;
+  final Map<String?, EditorJSComponentBuilder> customComponentBuilders;
 
-  const EditorJSView({Key? key, this.editorJSData, this.styles}) : super(key: key);
+  const EditorJSView({Key? key, this.editorJSData, this.styles, this.customComponentBuilders = const <String?, EditorJSComponentBuilder>{}})
+      : super(key: key);
 
   @override
   EditorJSViewState createState() => EditorJSViewState();
@@ -118,16 +125,15 @@ class EditorJSViewState extends State<EditorJSView> {
               case "image":
                 items.add(Image.network(element.data!.file!.url!));
                 break;
-              case "timeline":
-                final BetterPlayerDataSource dataSource = BetterPlayerDataSource(
-                    BetterPlayerDataSourceType.network, "https://stream.mux.com/YDgwX8016VoySCCp8HezGfifUlhBhZyVUW685OaQ8izA.m3u8");
-                final BetterPlayerController controller = BetterPlayerController(
-                  BetterPlayerConfiguration(),
-                  betterPlayerDataSource: dataSource,
-                );
-                items.add(BetterPlayer(
-                  controller: controller,
-                ));
+              default:
+                final EditorJSComponentBuilder? builder = widget.customComponentBuilders[element.type];
+                if (builder != null) {
+                  items.add(builder(
+                    context,
+                    element,
+                  ));
+                  break;
+                }
             }
             items.add(const SizedBox(height: 10));
           },
