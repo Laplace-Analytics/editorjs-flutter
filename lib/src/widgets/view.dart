@@ -63,12 +63,10 @@ class EditorJSViewState extends State<EditorJSView> {
 
             switch (element.type) {
               case "header":
-                items.add(Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text(
-                    element.data!.text!,
-                    style: TextStyle(fontSize: levelFontSize, fontWeight: (element.data!.level! <= 3) ? FontWeight.bold : FontWeight.normal),
-                  )
-                ]));
+                items.add(Text(
+                  element.data!.text!,
+                  style: TextStyle(fontSize: levelFontSize, fontWeight: (element.data!.level! <= 3) ? FontWeight.bold : FontWeight.normal),
+                ));
                 break;
               case "paragraph":
                 items.add(Html(
