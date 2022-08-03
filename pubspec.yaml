@@ -15,6 +15,7 @@ dependencies:
     git: https://github.com/Sub6Resources/flutter_html
   image_picker: ^0.8.0+4
   url_launcher: ^6.0.12
+  cached_network_image: ^3.2.1
 
 dev_dependencies:
   flutter_test:

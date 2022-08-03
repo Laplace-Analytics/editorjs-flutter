@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:editorjs_flutter/src/model/EditorJSBlock.dart';
 import 'package:editorjs_flutter/src/model/EditorJSCSSTag.dart';
 import 'package:editorjs_flutter/src/model/EditorJSData.dart';
@@ -125,7 +126,9 @@ class EditorJSViewState extends State<EditorJSView> {
                 ]));
                 break;
               case "image":
-                items.add(Image.network(element.data!.file!.url!));
+                items.add(CachedNetworkImage(
+                  imageUrl: element.data!.file!.url!,
+                ));
                 break;
               default:
                 final EditorJSComponentBuilder? builder = widget.customComponentBuilders[element.type];
