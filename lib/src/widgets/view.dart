@@ -153,11 +153,14 @@ class EditorJSViewState extends State<EditorJSView> {
     styles.forEach(
       (element) {
         map.putIfAbsent(
-            element.tag.toString(),
-            () => Style(
-                backgroundColor: (element.backgroundColor != null) ? getColor(element.backgroundColor!) : null,
-                color: (element.color != null) ? getColor(element.color!) : null,
-                padding: (element.padding != null) ? EdgeInsets.all(element.padding!) : null));
+          element.tag.toString(),
+          () => Style(
+            backgroundColor: (element.backgroundColor != null) ? getColor(element.backgroundColor!) : null,
+            color: (element.color != null) ? getColor(element.color!) : null,
+            padding: (element.padding != null) ? EdgeInsets.all(element.padding!) : null,
+            margin: (element.padding != null) ? EdgeInsets.all(element.margin!) : null,
+          ),
+        );
       },
     );
 
