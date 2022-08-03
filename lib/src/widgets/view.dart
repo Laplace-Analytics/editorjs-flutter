@@ -42,7 +42,7 @@ class EditorJSViewState extends State<EditorJSView> {
         dataObject = EditorJSData.fromJson(jsonDecode(widget.editorJSData!));
         styles = EditorJSViewStyles.fromJson(jsonDecode(widget.styles!));
 
-        customStyleMap = generateStylemap(styles.cssTags!);
+        customStyleMap = generateStylemap(styles);
 
         dataObject.blocks!.forEach(
           (element) {
