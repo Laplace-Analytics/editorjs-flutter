@@ -50,16 +50,16 @@ class EditorJSViewState extends State<EditorJSView> {
 
             switch (element.data!.level) {
               case 1:
-                levelFontSize = 20;
+                levelFontSize = 32;
                 break;
               case 2:
-                levelFontSize = 10;
+                levelFontSize = 24;
                 break;
               case 3:
-                levelFontSize = 20;
+                levelFontSize = 16;
                 break;
               case 4:
-                levelFontSize = 39;
+                levelFontSize = 12;
                 break;
               case 5:
                 levelFontSize = 10;
@@ -72,12 +72,10 @@ class EditorJSViewState extends State<EditorJSView> {
             switch (element.type) {
               case "header":
                 items.add(Align(
-                  alignment: Alignment.center,
+                  alignment: Alignment.centerLeft,
                   child: Text(
                     element.data!.text!,
-                    style: TextStyle(
-                        fontSize: levelFontSize, fontWeight: (element.data!.level! <= 3) ? FontWeight.bold : FontWeight.normal, color: Colors.blue),
-                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: levelFontSize, fontWeight: (element.data!.level! <= 3) ? FontWeight.bold : FontWeight.normal),
                   ),
                 ));
                 break;
