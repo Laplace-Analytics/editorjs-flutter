@@ -79,8 +79,9 @@ class EditorJSViewState extends State<EditorJSView> {
                 ));
                 break;
               case "paragraph":
+                final text = element.data!.text;
                 items.add(Html(
-                  data: element.data!.text,
+                  data: text != null ? "<p>" + text + "</p>" : null,
                   style: customStyleMap,
                 ));
                 break;
