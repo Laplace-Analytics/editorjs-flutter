@@ -147,7 +147,8 @@ class EditorJSViewState extends State<EditorJSView> {
     );
   }
 
-  Map<String, Style> generateStylemap(List<EditorJSCSSTag> styles) {
+  Map<String, Style> generateStylemap(EditorJSViewStyles style) {
+    final List<EditorJSCSSTag> styles = style.cssTags!;
     Map<String, Style> map = <String, Style>{};
 
     styles.forEach(
@@ -159,6 +160,7 @@ class EditorJSViewState extends State<EditorJSView> {
             color: (element.color != null) ? getColor(element.color!) : null,
             padding: (element.padding != null) ? EdgeInsets.all(element.padding!) : null,
             margin: (element.padding != null) ? EdgeInsets.all(element.margin!) : null,
+            fontFamily: style.defaultFont,
           ),
         );
       },
