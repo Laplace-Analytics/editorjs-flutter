@@ -80,12 +80,9 @@ class EditorJSViewState extends State<EditorJSView> {
                 ));
                 break;
               case "paragraph":
-                items.add(SizedBox(
-                  width: MediaQuery.of(context).size.width*.8,
-                  child: Html(
-                    data: element.data!.text,
-                    style: customStyleMap,
-                  ),
+                items.add(Html(
+                  data: element.data!.text,
+                  style: customStyleMap,
                 ));
                 break;
               case "list":
