@@ -42,7 +42,7 @@ class EditorJSViewState extends State<EditorJSView> {
         dataObject = EditorJSData.fromJson(jsonDecode(widget.editorJSData!));
         styles = EditorJSViewStyles.fromJson(jsonDecode(widget.styles!));
 
-        customStyleMap = generateStylemap(styles.cssTags!);
+        customStyleMap = generateStylemap(styles);
 
         dataObject.blocks!.forEach(
           (element) {
@@ -80,8 +80,9 @@ class EditorJSViewState extends State<EditorJSView> {
                 ));
                 break;
               case "paragraph":
+                final text = element.data!.text;
                 items.add(Html(
-                  data: element.data!.text,
+                  data: text != null ? "<p>" + text + "</p>" : null,
                   style: customStyleMap,
                 ));
                 break;
@@ -147,17 +148,22 @@ class EditorJSViewState extends State<EditorJSView> {
     );
   }
 
-  Map<String, Style> generateStylemap(List<EditorJSCSSTag> styles) {
+  Map<String, Style> generateStylemap(EditorJSViewStyles style) {
+    final List<EditorJSCSSTag> styles = style.cssTags!;
     Map<String, Style> map = <String, Style>{};
 
     styles.forEach(
       (element) {
         map.putIfAbsent(
-            element.tag.toString(),
-            () => Style(
-                backgroundColor: (element.backgroundColor != null) ? getColor(element.backgroundColor!) : null,
-                color: (element.color != null) ? getColor(element.color!) : null,
-                padding: (element.padding != null) ? EdgeInsets.all(element.padding!) : null));
+          element.tag.toString(),
+          () => Style(
+            backgroundColor: (element.backgroundColor != null) ? getColor(element.backgroundColor!) : null,
+            color: (element.color != null) ? getColor(element.color!) : null,
+            padding: (element.padding != null) ? EdgeInsets.all(element.padding!) : null,
+            margin: (element.padding != null) ? EdgeInsets.all(element.margin!) : null,
+            fontFamily: style.defaultFont,
+          ),
+        );
       },
     );
 
