@@ -127,6 +127,7 @@ class EditorJSViewState extends State<EditorJSView> {
               case "image":
                 items.add(CachedNetworkImage(
                   imageUrl: element.data!.file!.url!,
+                  errorWidget: (context,_,__)=>  Icon(Icons.image,size:50),
                 ));
                 break;
               default:
