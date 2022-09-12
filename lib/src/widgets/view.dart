@@ -162,6 +162,7 @@ class EditorJSViewState extends State<EditorJSView> {
             padding: (element.padding != null) ? EdgeInsets.all(element.padding!) : null,
             margin: (element.padding != null) ? EdgeInsets.all(element.margin!) : null,
             fontFamily: style.defaultFont,
+            fontSize: (element.fontSize != null) ? FontSize(element.fontSize): null,
           ),
         );
       },

@@ -4,6 +4,7 @@ class EditorJSCSSTag {
   final String? color;
   final double? padding;
   final double? margin;
+  final double? fontSize;
 
   EditorJSCSSTag({
     this.tag,
@@ -11,6 +12,7 @@ class EditorJSCSSTag {
     this.color,
     this.padding,
     this.margin,
+    this.fontSize,
   });
 
   factory EditorJSCSSTag.fromJson(Map<String, dynamic> parsedJson) {
@@ -20,6 +22,7 @@ class EditorJSCSSTag {
       color: parsedJson['color'],
       padding: parsedJson['padding'],
       margin: parsedJson['margin'],
+      fontSize: parsedJson['fontSize'],
     );
   }
 }
