@@ -2,9 +2,7 @@ import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:editorjs_flutter/src/model/EditorJSBlock.dart';
-import 'package:editorjs_flutter/src/model/EditorJSCSSTag.dart';
 import 'package:editorjs_flutter/src/model/EditorJSData.dart';
-import 'package:editorjs_flutter/src/model/EditorJSViewStyles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/style.dart';
@@ -16,7 +14,7 @@ typedef EditorJSComponentBuilder = Widget Function(
 
 class EditorJSView extends StatefulWidget {
   final String? editorJSData;
-  final String? styles;
+  final Map<String, Style>? styles;
   final Map<String?, EditorJSComponentBuilder> customComponentBuilders;
 
   const EditorJSView({Key? key, this.editorJSData, this.styles, this.customComponentBuilders = const <String?, EditorJSComponentBuilder>{}})
@@ -29,9 +27,7 @@ class EditorJSView extends StatefulWidget {
 class EditorJSViewState extends State<EditorJSView> {
   String? data;
   late EditorJSData dataObject;
-  late EditorJSViewStyles styles;
   final List<Widget> items = <Widget>[];
-  late Map<String, Style> customStyleMap;
 
   @override
   void initState() {
@@ -40,9 +36,6 @@ class EditorJSViewState extends State<EditorJSView> {
     setState(
       () {
         dataObject = EditorJSData.fromJson(jsonDecode(widget.editorJSData!));
-        styles = EditorJSViewStyles.fromJson(jsonDecode(widget.styles!));
-
-        customStyleMap = generateStylemap(styles);
 
         dataObject.blocks!.forEach(
           (element) {
@@ -83,7 +76,7 @@ class EditorJSViewState extends State<EditorJSView> {
                 final text = element.data!.text;
                 items.add(Html(
                   data: text != null ? "<p>" + text + "</p>" : null,
-                  style: customStyleMap,
+                  style: widget.styles ?? {},
                 ));
                 break;
               case "list":
@@ -100,7 +93,7 @@ class EditorJSViewState extends State<EditorJSView> {
                           Container(
                               child: Html(
                             data: bullet + element,
-                            style: customStyleMap,
+                            style: widget.styles ?? {},
                           ))
                         ]),
                       );
@@ -110,7 +103,7 @@ class EditorJSViewState extends State<EditorJSView> {
                         Row(
                           children: <Widget>[
                             Container(
-                              child: Html(data: bullet + element, style: customStyleMap),
+                              child: Html(data: bullet + element, style: widget.styles ?? {}),
                             )
                           ],
                         ),
@@ -128,7 +121,7 @@ class EditorJSViewState extends State<EditorJSView> {
               case "image":
                 items.add(CachedNetworkImage(
                   imageUrl: element.data?.file?.url ?? "",
-                  errorWidget: (context,_,__)=>  Icon(Icons.image,size:50),
+                  errorWidget: (context, _, __) => Icon(Icons.image, size: 50),
                 ));
                 break;
               default:
@@ -146,34 +139,6 @@ class EditorJSViewState extends State<EditorJSView> {
         );
       },
     );
-  }
-
-  Map<String, Style> generateStylemap(EditorJSViewStyles style) {
-    final List<EditorJSCSSTag> styles = style.cssTags!;
-    Map<String, Style> map = <String, Style>{};
-
-    styles.forEach(
-      (element) {
-        map.putIfAbsent(
-          element.tag.toString(),
-          () => Style(
-            backgroundColor: (element.backgroundColor != null) ? getColor(element.backgroundColor!) : null,
-            color: (element.color != null) ? getColor(element.color!) : null,
-            padding: (element.padding != null) ? EdgeInsets.all(element.padding!) : null,
-            margin: (element.padding != null) ? EdgeInsets.all(element.margin!) : null,
-            fontFamily: style.defaultFont,
-            fontSize: (element.fontSize != null) ? FontSize(element.fontSize): null,
-          ),
-        );
-      },
-    );
-
-    return map;
-  }
-
-  Color getColor(String hexColor) {
-    final hexCode = hexColor.replaceAll('#', '');
-    return Color(int.parse('$hexCode', radix: 16));
   }
 
   @override
