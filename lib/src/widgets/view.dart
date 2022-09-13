@@ -40,25 +40,32 @@ class EditorJSViewState extends State<EditorJSView> {
         dataObject.blocks!.forEach(
           (element) {
             double levelFontSize = 16;
+            double levelFontHeight = 1.5;
 
             switch (element.data!.level) {
               case 1:
                 levelFontSize = 32;
+                levelFontHeight = 2.0;
                 break;
               case 2:
                 levelFontSize = 24;
+                levelFontHeight = 1.8;
                 break;
               case 3:
-                levelFontSize = 16;
+                levelFontSize = 22;
+                levelFontHeight = 1.8;
                 break;
               case 4:
-                levelFontSize = 12;
+                levelFontSize = 20;
+                levelFontHeight = 1.5;
                 break;
               case 5:
-                levelFontSize = 10;
+                levelFontSize = 18;
+                levelFontHeight = 1.5;
                 break;
               case 6:
-                levelFontSize = 8;
+                levelFontSize = 16;
+                levelFontHeight = 1.5;
                 break;
             }
 
@@ -68,7 +75,7 @@ class EditorJSViewState extends State<EditorJSView> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     element.data!.text!,
-                    style: TextStyle(fontSize: levelFontSize, fontWeight: (element.data!.level! <= 3) ? FontWeight.bold : FontWeight.normal),
+                    style: TextStyle(fontSize: levelFontSize, fontWeight: FontWeight.bold, height: levelFontHeight),
                   ),
                 ));
                 break;
