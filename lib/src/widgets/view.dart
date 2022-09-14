@@ -45,15 +45,15 @@ class EditorJSViewState extends State<EditorJSView> {
             switch (element.data!.level) {
               case 1:
                 levelFontSize = 32;
-                levelFontHeight = 2.0;
+                levelFontHeight = 1.8;
                 break;
               case 2:
                 levelFontSize = 24;
-                levelFontHeight = 1.8;
+                levelFontHeight = 1.7;
                 break;
               case 3:
                 levelFontSize = 22;
-                levelFontHeight = 1.8;
+                levelFontHeight = 1.7;
                 break;
               case 4:
                 levelFontSize = 20;
