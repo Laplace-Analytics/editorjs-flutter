@@ -39,43 +39,13 @@ class EditorJSViewState extends State<EditorJSView> {
 
         dataObject.blocks!.forEach(
           (element) {
-            double levelFontSize = 16;
-            double levelFontHeight = 1.5;
-
-            switch (element.data!.level) {
-              case 1:
-                levelFontSize = 32;
-                levelFontHeight = 1.5;
-                break;
-              case 2:
-                levelFontSize = 24;
-                levelFontHeight = 1.5;
-                break;
-              case 3:
-                levelFontSize = 22;
-                levelFontHeight = 1.5;
-                break;
-              case 4:
-                levelFontSize = 20;
-                levelFontHeight = 1.4;
-                break;
-              case 5:
-                levelFontSize = 18;
-                levelFontHeight = 1.4;
-                break;
-              case 6:
-                levelFontSize = 16;
-                levelFontHeight = 1.3;
-                break;
-            }
-
             switch (element.type) {
               case "header":
                 items.add(Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(
-                    element.data!.text!,
-                    style: TextStyle(fontSize: levelFontSize, fontWeight: FontWeight.bold, height: levelFontHeight),
+                  child: Html(
+                    data: "<h${element.data!.level!}>" + element.data!.text! + "</h${element.data!.level!}>",
+                    style: widget.styles ?? {},
                   ),
                 ));
                 break;
