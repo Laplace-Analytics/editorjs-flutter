@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:editorjs_flutter/src/model/EditorJSBlock.dart';
 import 'package:editorjs_flutter/src/model/EditorJSData.dart';
 import 'package:flutter/material.dart';
@@ -94,12 +93,6 @@ class EditorJSViewState extends State<EditorJSView> {
                   // Text('***', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold), textAlign: TextAlign.center,)
                   Expanded(child: Divider(color: Colors.grey))
                 ]));
-                break;
-              case "image":
-                items.add(CachedNetworkImage(
-                  imageUrl: element.data?.file?.url ?? "",
-                  errorWidget: (context, _, __) => Icon(Icons.image, size: 50),
-                ));
                 break;
               default:
                 final EditorJSComponentBuilder? builder = widget.customComponentBuilders[element.type];
