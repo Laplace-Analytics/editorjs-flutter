@@ -5,6 +5,7 @@ import 'package:editorjs_flutter/src/model/EditorJSData.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/style.dart';
+import 'package:html/dom.dart' as dom;
 
 typedef EditorJSComponentBuilder = Widget Function(
   BuildContext context,
@@ -15,9 +16,15 @@ class EditorJSView extends StatefulWidget {
   final String? editorJSData;
   final Map<String, Style>? styles;
   final Map<String?, EditorJSComponentBuilder> customComponentBuilders;
+  final void Function(String? url, RenderContext context, Map<String, String> attributes, dom.Element? element)? onLinkTap;
 
-  const EditorJSView({Key? key, this.editorJSData, this.styles, this.customComponentBuilders = const <String?, EditorJSComponentBuilder>{}})
-      : super(key: key);
+  const EditorJSView({
+    Key? key,
+    this.editorJSData,
+    this.styles,
+    this.customComponentBuilders = const <String?, EditorJSComponentBuilder>{},
+    this.onLinkTap,
+  }) : super(key: key);
 
   @override
   EditorJSViewState createState() => EditorJSViewState();
@@ -45,15 +52,19 @@ class EditorJSViewState extends State<EditorJSView> {
                   child: Html(
                     data: "<h${element.data!.level!}>" + element.data!.text! + "</h${element.data!.level!}>",
                     style: widget.styles ?? {},
+                    onLinkTap: widget.onLinkTap,
                   ),
                 ));
                 break;
               case "paragraph":
                 final text = element.data!.text;
-                items.add(Html(
-                  data: text != null ? "<p>" + text + "</p>" : null,
-                  style: widget.styles ?? {},
-                ));
+                items.add(
+                  Html(
+                    data: text != null ? "<p>" + text + "</p>" : null,
+                    style: widget.styles ?? {},
+                    onLinkTap: widget.onLinkTap,
+                  ),
+                );
                 break;
               case "list":
                 String bullet = "\u2022 ";
@@ -67,10 +78,12 @@ class EditorJSViewState extends State<EditorJSView> {
                       items.add(
                         Row(children: [
                           Container(
-                              child: Html(
-                            data: bullet + element,
-                            style: widget.styles ?? {},
-                          ))
+                            child: Html(
+                              data: bullet + element,
+                              style: widget.styles ?? {},
+                              onLinkTap: widget.onLinkTap,
+                            ),
+                          )
                         ]),
                       );
                       counter++;
@@ -79,7 +92,11 @@ class EditorJSViewState extends State<EditorJSView> {
                         Row(
                           children: <Widget>[
                             Container(
-                              child: Html(data: bullet + element, style: widget.styles ?? {}),
+                              child: Html(
+                                data: bullet + element,
+                                style: widget.styles ?? {},
+                                onLinkTap: widget.onLinkTap,
+                              ),
                             )
                           ],
                         ),
