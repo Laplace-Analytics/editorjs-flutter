@@ -4,7 +4,6 @@ import 'package:editorjs_flutter/src/model/EditorJSBlock.dart';
 import 'package:editorjs_flutter/src/model/EditorJSData.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_html/style.dart';
 import 'package:html/dom.dart' as dom;
 
 typedef EditorJSComponentBuilder = Widget Function(
@@ -16,7 +15,11 @@ class EditorJSView extends StatefulWidget {
   final String? editorJSData;
   final Map<String, Style>? styles;
   final Map<String?, EditorJSComponentBuilder> customComponentBuilders;
-  final void Function(String? url, RenderContext context, Map<String, String> attributes, dom.Element? element)? onLinkTap;
+  final void Function(
+      String? url,
+      Map<String, String> attributes,
+      dom.Element? element,
+      )? onLinkTap;
 
   const EditorJSView({
     Key? key,
