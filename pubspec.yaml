@@ -8,7 +8,6 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
-  better_player: ^0.0.82
   flutter:
     sdk: flutter
   flutter_html:
